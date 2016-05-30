@@ -98,7 +98,8 @@ void HttpReply::Update(qint64 receive, qint64 total)
 {
     if(total_ == 0) total_ = total;
     int time = downLoadTime_.elapsed();
-    emit downProcess(url_, receiveSize_ + receive, total_, time);
+    //qDebug() << "receive : " << receive << "  Total : " << total;
+    emit downProcess(url_.toString(), receiveSize_ + receive, total_, time);
 
 }
 
@@ -116,7 +117,7 @@ void HttpReply::Finish()
         file_->close();
         delete file_;
         reply_->deleteLater();
-        emit Finish(url_);
+        emit Finish(url_.toString());
     }
 }
 

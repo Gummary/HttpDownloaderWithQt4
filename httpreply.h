@@ -33,7 +33,7 @@ private slots:
     void readyRead();
 
 signals:
-    void downProcess(QUrl, qint64, qint64, int);
+    void downProcess(QString, qint64, qint64, int);
 
     void Finish(QUrl);
 
@@ -56,8 +56,6 @@ private:
     QTime downLoadTime_;
     QNetworkAccessManager *manger_;
     qint64 total_;
-
-
 
 };
 

@@ -22,22 +22,22 @@ private:
     QString timeFormat(int);
 
 signals:
-    void Update(QUrl, QString, QString,  qint64, qint64);
+    void Update(QString url, QString, QString,  qint64, qint64);
 
-    void UpdateSpeed(QUrl, QString);
-    void UpdateTime(QUrl,QString);
-    void UpdatSize(QUrl,qint64, qint64);
+    void UpdateSpeed(QString, QString);
+    void UpdateTime(QString,QString);
+    void UpdatSize(QString,qint64, qint64);
 
-    void taskFinish(QUrl);
+    void taskFinish(QString url);
 
 public slots:
-    void UpdateProcess(QUrl url, qint64 recesize, qint64 totalsize, int usedTime);
+    void UpdateProcess(QString url, qint64 recesize, qint64 totalsize, int usedTime);
 
-    void Finish(QUrl url);
+    void Finish(QString url);
 public:
     explicit DownLoad(QObject *parent = 0);
-    QHash<QUrl,HttpReply*>  downloadSet;
-    QHash<QUrl, int> usedTime_;
+    QHash<QString,HttpReply*>  downloadSet;
+    QHash<QString, int> usedTime_;
 };
 
 #define TASKNOTEXIST         100

@@ -20,7 +20,7 @@ public:
 private slots:
     void on_pushButton_clicked();
 
-    void Update(QUrl, QString, QString,  qint64, qint64);
+    void Update(QString, QString, QString,  qint64, qint64);
 
     void on_pushButton_2_clicked();
 

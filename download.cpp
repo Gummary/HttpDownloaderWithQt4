@@ -10,40 +10,40 @@ DownLoad::DownLoad(QObject *parent) :
 int DownLoad::NewDownLoad(QUrl url)
 {
     int rc;
-    if(downloadSet.contains(url))
+    if(downloadSet.contains(url.toString()))
     {
         return TASKEXIST;
     }
 
     HttpReply *reply = new HttpReply(url);
 
-    downloadSet.insert(url, reply);
-    usedTime_.insert(url, 0);
+    downloadSet.insert(url.toString(), reply);
+    usedTime_.insert(url.toString(), 0);
 
     if((rc= reply->DownLoad()))
     {
-        downloadSet.remove(url);
-        usedTime_.remove(url);
+        downloadSet.remove(url.toString());
+        usedTime_.remove(url.toString());
         delete reply;
         return rc;
     }
 
-    connect(reply, SIGNAL(downProcess(QUrl,qint64,qint64,int)),
-            this, SLOT(UpdateProcess(QUrl,qint64,qint64,int)));
+    connect(reply, SIGNAL(downProcess(QString,qint64,qint64,int)),
+            this, SLOT(UpdateProcess(QString,qint64,qint64,int)));
 
-    connect(reply, SIGNAL(Finish(QUrl)), this, SLOT(Finish(QUrl)));
+    connect(reply, SIGNAL(Finish(QString)), this, SLOT(Finish(QString)));
     return (0);
 }
 
 int DownLoad::ReStartDownLoad(QUrl url)
 {
     int rc;
-    if(!downloadSet.contains(url))
+    if(!downloadSet.contains(url.toString()))
     {
         return TASKNOTEXIST;
     }
 
-    HttpReply *reply = downloadSet.value(url);
+    HttpReply *reply = downloadSet.value(url.toString());
 
     if(rc = reply->DownLoad())
     {
@@ -51,7 +51,7 @@ int DownLoad::ReStartDownLoad(QUrl url)
     }
 }
 
-void DownLoad::Finish(QUrl url)
+void DownLoad::Finish(QString url)
 {
     HttpReply *reply = downloadSet.value(url);
     downloadSet.remove(url);
@@ -61,8 +61,9 @@ void DownLoad::Finish(QUrl url)
     qDebug() << "delete";
 }
 
-void DownLoad::UpdateProcess(QUrl url, qint64 recesize, qint64 totalsize, int usedTime)
+void DownLoad::UpdateProcess(QString url, qint64 recesize, qint64 totalsize, int usedTime)
 {
+    qDebug() << "2233";
     // 总时间
     int nTime = usedTime;
 
@@ -179,7 +180,7 @@ QString DownLoad::timeFormat(int seconds)
 
 int DownLoad::StopDownLoad(QUrl url)
 {
-    HttpReply *reply = downloadSet.value(url, NULL);
+    HttpReply *reply = downloadSet.value(url.toString(), NULL);
     if(reply!=NULL)
     {
         reply->StopDownLoad();

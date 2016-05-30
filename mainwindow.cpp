@@ -10,8 +10,8 @@ MainWindow::MainWindow(QWidget *parent) :
     downLoad = new DownLoad();
     ui->progressBar->setValue(0);
 
-    connect(downLoad, SIGNAL(Update(QUrl,QString,QString,qint64,qint64))
-            , this, SLOT(Update(QUrl,QString,QString,qint64,qint64)));
+    connect(downLoad, SIGNAL(Update(QString,QString,QString,qint64,qint64))
+            , this, SLOT(Update(QString,QString,QString,qint64,qint64)));
 
     url = "http://115.159.127.79/ihome/download/iot.avi";
     ui->pushButton_2->setEnabled(false);
@@ -47,10 +47,10 @@ void MainWindow::on_pushButton_3_clicked()
     downLoad->ReStartDownLoad(url);
 }
 
-void MainWindow::Update(QUrl url, QString time,
+void MainWindow::Update(QString url, QString time,
                         QString speed, qint64 recesize, qint64 totalsize)
 {
-    ui->URL->setText(url.toString());
+    ui->URL->setText(url);
     ui->progressBar->setMaximum(totalsize);
     ui->progressBar->setValue(recesize);
     ui->Speed->setText(QString("Speed : ") + speed);
